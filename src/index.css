@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 :root {
   --text: #6b6375;
@@ -6,8 +6,8 @@
 
   --code-bg: #f4f3ec;
 
-  --font-sans: 'Geist Variable', sans-serif;
-  --font-mono: 'Geist Mono Variable', monospace;
+  --font-sans: "Geist Variable", sans-serif;
+  --font-mono: "Geist Mono Variable", monospace;
 
   font-family: var(--font-sans);
   color-scheme: light dark;

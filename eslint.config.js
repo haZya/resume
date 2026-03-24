@@ -1,34 +1,45 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import betterTailwindcss from 'eslint-plugin-better-tailwindcss'
-import tseslint from 'typescript-eslint'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import antfu from "@antfu/eslint-config";
+import betterTailwindcss from "eslint-plugin-better-tailwindcss";
 
-export default defineConfig([
-  globalIgnores(['dist']),
+export default antfu(
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
-      betterTailwindcss.configs.recommended,
-    ],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-    },
-    settings: {
-      'better-tailwindcss': {
-        entryPoint: 'src/index.css',
-      },
-    },
-    rules: {
-      'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
-      'better-tailwindcss/no-unknown-classes': 'off',
+    ignores: ["dist"],
+    react: true,
+    typescript: true,
+    formatters: true,
+    isInEditor: false,
+    stylistic: {
+      indent: 2,
+      semi: true,
+      quotes: "double",
     },
   },
-])
+  {
+    files: ["**/*.{jsx,tsx}"],
+    ...betterTailwindcss.configs.recommended,
+    settings: {
+      "better-tailwindcss": {
+        entryPoint: "src/index.css",
+      },
+    },
+  },
+  {
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      "ts/no-redeclare": "off",
+      "ts/consistent-type-definitions": ["error", "type"],
+      "no-console": ["warn", { allow: ["info", "warn", "error"] }],
+      "antfu/no-top-level-await": ["off"],
+      "node/prefer-global/process": ["off"],
+      "node/no-process-env": ["error"],
+      "perfectionist/sort-imports": [
+        "warn",
+        {
+          tsconfig: { rootDir: "." },
+        },
+      ],
+      "better-tailwindcss/enforce-consistent-line-wrapping": "off",
+      "better-tailwindcss/no-unknown-classes": "off",
+    },
+  },
+);
