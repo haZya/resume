@@ -1,85 +1,298 @@
 import { Email, External, Globe, Linkedin, LogoGithub, Pen, Phone } from "geist-icons";
 
 import photo from "./assets/photo.jfif";
+import "./App.css";
 import Link from "./components/Link";
 import Title from "./components/Title";
-import "./App.css";
+
+const phone = import.meta.env.VITE_PHONE ?? "";
+const email = import.meta.env.VITE_EMAIL ?? "";
 
 function App() {
-  const phone = import.meta.env.VITE_PHONE ?? "";
-  const email = import.meta.env.VITE_EMAIL ?? "";
-
   return (
-    <main className="grid h-[297mm] w-[210mm] grid-cols-5 gap-2.5 p-2.5">
-      <section id="header" className="col-span-2 rounded-lg bg-white/30 py-8 text-white backdrop-blur-xl">
-        <header className="flex flex-col items-center gap-y-8">
-          <div id="title">
-            <h1 className="text-5xl font-light">Hasitha</h1>
-            <h1 className="text-4xl font-medium tracking-tight">Wickramasinghe</h1>
-            <p className="text-xl">Application Architect</p>
-          </div>
-          <div id="about" className="mt-22 rounded-lg border-2 bg-white/30">
-            <img className="mx-auto -mt-22 w-44 rounded-full border-4" src={photo} alt="photo" />
-            <div className="space-y-2 p-6">
-              <h2 className="font-bold">ABOUT ME</h2>
-              <p className="text-sm">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore, quas.</p>
+    <>
+      <main className="grid h-[297mm] w-[210mm] grid-cols-5 gap-2.5 p-2.5">
+        <section id="header" className="col-span-2 rounded-lg bg-white/30 py-8 text-white">
+          <header className="flex flex-col items-center gap-y-8">
+            <div id="title">
+              <h1 className="text-5xl font-light">Hasitha</h1>
+              <h1 className="text-4xl font-medium tracking-tight">Wickramasinghe</h1>
+              <p className="text-xl">Application Architect</p>
             </div>
-          </div>
-          <div id="connect" className="space-y-3 px-4 font-mono text-sm">
-            <Link icon={Phone} href={`tel:${phone}`} content={phone} />
-            <Link icon={Email} href={`mailto:${email}`} content={email.split("@").join(" @")} />
-            <Link icon={Linkedin} href="https://linkedin.com/in/hasitha-wickramasinghe-92483a19b" content="in/hasitha-wickramasinghe-92483a19b" />
-            <Link icon={LogoGithub} href="https://github.com/haZya" content="github.com/haZya" />
-            <Link icon={Globe} href="https://haZya.dev" content="https://haZya.dev" />
-            <Link icon={Pen} href="https://blog.hazya.dev" content="https://blog.haZya.dev" />
-          </div>
-        </header>
-      </section>
-      <section id="body" className="col-span-3 space-y-6 rounded-lg bg-white px-6 py-8">
-        <div id="education" className="space-y-4">
-          <Title content="EDUCATION" />
-          <div>
-            <h3 className="font-semibold">
-              BEng (Hons) in Software Engineering
-              {" "}
-              <span className="font-normal">(2019)</span>
-            </h3>
-            <p className="text-[17px]">London Metropolitan University</p>
-            <p className="font-mono text-sm font-light">Grade: First-Class Honours</p>
-          </div>
-          <div>
-            <h3 className="font-semibold">
-              AWS Certified Solutions Architect - Professional
-            </h3>
-            <p>Issued Jan 2026 · Expires Jan 2029</p>
-            <a
-              className="flex items-center gap-2.5"
-              href="https://www.credly.com/badges/3a25dc02-285a-43b9-80cc-42d7f108591d"
-              target="_blank"
-              rel="noopener"
-            >
-              <p className="font-mono text-sm font-light">Credential: 16f19b08b58240548b6eb26776b1a13d</p>
-              <External className="size-3.5 shrink-0" />
-            </a>
-          </div>
-          <div>
-            <h3 className="font-semibold">
-              AWS Certified Generative AI Developer - Professional
-            </h3>
-            <p>Issued Mar 2026 · Expires Mar 2029 (Early Adopter)</p>
-            <a
-              className="flex items-center gap-2.5"
-              href="https://www.credly.com/badges/b41fa631-6361-4760-ad97-ff3f59671b45"
-              target="_blank"
-              rel="noopener"
-            >
-              <p className="font-mono text-sm font-light">Credential: 42d2b2e423094e5eb5aa69a5b50e575b</p>
-              <External className="size-3.5 shrink-0" />
-            </a>
-          </div>
-        </div>
-      </section>
-    </main>
+            <div id="about" className="mt-22 rounded-lg border-2 bg-white/30">
+              <img className="mx-auto -mt-22 w-44 rounded-full border-4" src={photo} alt="photo" />
+              <div className="space-y-2 p-6">
+                <h2 className="font-bold">ABOUT ME</h2>
+                <p className="text-sm">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore, quas.</p>
+              </div>
+            </div>
+            <div id="connect" className="space-y-3 px-4 font-mono text-sm">
+              <Link icon={Phone} href={`tel:${phone}`} content={phone} />
+              <Link icon={Email} href={`mailto:${email}`} content={email.split("@").join(" @")} />
+              <Link icon={Linkedin} href="https://linkedin.com/in/hasitha-wickramasinghe-92483a19b" content="in/hasitha-wickramasinghe-92483a19b" />
+              <Link icon={LogoGithub} href="https://github.com/haZya" content="github.com/haZya" />
+              <Link icon={Globe} href="https://haZya.dev" content="https://haZya.dev" />
+              <Link icon={Pen} href="https://blog.hazya.dev" content="https://blog.haZya.dev" />
+            </div>
+          </header>
+        </section>
+        <section id="body" className="col-span-3 space-y-5 rounded-lg bg-white px-6 py-8">
+          <section id="education" className="space-y-4">
+            <Title content="EDUCATION & CERTS" />
+            <div className="space-y-2.5">
+              <a
+                className="block"
+                href="https://www.credly.com/badges/3a25dc02-285a-43b9-80cc-42d7f108591d"
+                target="_blank"
+                rel="noopener"
+              >
+                <h3 className="text-[11pt]/tight font-semibold">
+                  AWS Certified Solutions Architect - Professional
+                </h3>
+                <p className="font-mono text-[13px] tracking-tight">Issued Jan 2026 · Expires Jan 2029</p>
+              </a>
+              <a
+                className="block"
+                href="https://www.credly.com/badges/b41fa631-6361-4760-ad97-ff3f59671b45"
+                target="_blank"
+                rel="noopener"
+              >
+                <h3 className="text-[11pt]/tight font-semibold">
+                  AWS Certified Generative AI Developer - Professional
+                </h3>
+                <p className="font-mono text-[13px] tracking-tight">Issued Mar 2026 · Expires Mar 2029 (Early Adopter)</p>
+              </a>
+              <div>
+                <h3 className="text-[11pt]/tight font-semibold">
+                  BEng (Hons) in Software Engineering
+                  {" "}
+                  <span className="font-normal">(2019)</span>
+                </h3>
+                <p className="font-mono text-[13px] tracking-tight">London Metropolitan University</p>
+              </div>
+            </div>
+          </section>
+          <section id="experience" className="space-y-4">
+            <Title content="EXPERIENCE" />
+            <div className="space-y-3">
+              <div>
+                <h3 className="flex items-center justify-between text-[11pt] font-semibold">
+                  Jaiden Group
+                  <span className="font-mono text-[13px] font-normal"> Houston, TX, USA (Remote)</span>
+                </h3>
+                <div className="space-y-2">
+                  <div className="relative pl-4.5 before:absolute before:top-6 before:-bottom-2 before:left-0.5 before:w-0.5 before:rounded-full before:bg-slate-300">
+                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                      <span className="text-sm">Application Architect</span>
+                      {" "}
+                      Feb 2025 - Present
+                    </p>
+                    <ul>
+                      <li>
+                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                          <strong className="font-semibold">Driving the transition to cloud-native</strong>
+                          {" "}
+                          architectures, leveraging Serverless & Microservices to enhance scalability and cost-efficiency.
+                        </p>
+                      </li>
+                      <li>
+                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                          <strong className="font-semibold">Standardized DevOps workflows</strong>
+                          {" "}
+                          by implementing automated CI/CD pipelines via GitHub Actions across all active projects.
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="relative pl-4.5">
+                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                      <span className="text-sm">Sr. Full Stack Developer</span>
+                      {" "}
+                      Feb 2023 - Feb 2025
+                    </p>
+                    <ul>
+                      <li>
+                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                          <strong className="font-semibold">Accelerated deployment cycles</strong>
+                          {" "}
+                          by transitioning internal tools to IaC (AWS CDK & CloudFormation), significantly reducing manual overhead and infrastructure drift.
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3 className="flex items-center justify-between text-[11pt] font-semibold">
+                  Sketch Your Brand
+                  <span className="font-mono text-[13px] font-normal"> Houston, TX, USA (Remote)</span>
+                </h3>
+                <div className="space-y-2">
+                  <div className="relative pl-4.5 before:absolute before:top-6 before:bottom-1 before:left-0.5 before:w-0.5 before:rounded-full before:bg-slate-300">
+                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                      <span className="text-sm">Sr. Full Stack Engineer</span>
+                      {" "}
+                      Mar 2024 - Present
+                    </p>
+                    <ul>
+                      <li>
+                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                          <strong className="font-semibold">Architected event-driven workflows</strong>
+                          {" "}
+                          using AWS Step Functions to handle complex business logic and
+                          {" "}
+                          <strong className="font-semibold">workflow automation</strong>
+                          .
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3 className="flex items-center justify-between text-[11pt] font-semibold">
+                  Ok Webs IT Solutions
+                  <span className="font-mono text-[13px] font-normal"> Colombo, LK (On-site)</span>
+                </h3>
+                <div className="space-y-2">
+                  <div className="relative pl-4.5 before:absolute before:top-6 before:-bottom-2 before:left-0.5 before:w-0.5 before:rounded-full before:bg-slate-300">
+                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                      <span className="text-sm">Technical Lead</span>
+                      {" "}
+                      Jul 2022 - Present
+                    </p>
+                    <ul>
+                      <li>
+                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                          <strong className="font-semibold">Led the architecture and delivery</strong>
+                          {" "}
+                          of high-scale cloud solutions, including an
+                          {" "}
+                          <strong className="font-semibold">ML-driven recommendation engine</strong>
+                          {" "}
+                          for a dating platform and a property
+                          {" "}
+                          <strong className="font-semibold">service marketplace</strong>
+                          {" "}
+                          for the ANZ market.
+                        </p>
+                      </li>
+                      <li>
+                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                          <strong className="font-semibold">Mentored a cross-functional team</strong>
+                          {" "}
+                          through rigorous code reviews and technical roadmap planning.
+                        </p>
+                      </li>
+                      <li>
+                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                          <strong className="font-semibold">Streamlined internal operations</strong>
+                          {" "}
+                          by building a custom
+                          {" "}
+                          <strong className="font-semibold">AWS deployment portal</strong>
+                          {" "}
+                          using Coolify and Service Catalog to empower non-technical teams with
+                          {" "}
+                          <strong className="font-semibold">one-click infra provisioning</strong>
+                          .
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="relative pl-4.5">
+                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                      <span className="text-sm">Full Stack Web Developer</span>
+                      {" "}
+                      Aug 2020 - Jul 2022
+                    </p>
+                    <ul>
+                      <li>
+                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                          <strong className="font-semibold">Owned the full-stack development lifecycle</strong>
+                          {" "}
+                          for diverse web applications, ranging from an
+                          {" "}
+                          <strong className="font-semibold">online exam system</strong>
+                          {" "}
+                          to a complex
+                          {" "}
+                          <strong className="font-semibold">inventory management</strong>
+                          {" "}
+                          SPA integrated with Clover.
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3 className="flex items-center justify-between text-[11pt] font-semibold">
+                  Self-employed
+                  <span className="font-mono text-[13px] font-normal"> Colombo, LK (Hybrid)</span>
+                </h3>
+                <div className="space-y-2">
+                  <div className="relative pl-4.5 before:absolute before:top-6 before:bottom-1 before:left-0.5 before:w-0.5 before:rounded-full before:bg-slate-300">
+                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                      <span className="text-sm">Developer | Consultant</span>
+                      {" "}
+                      Jun 2019 - Aug 2020
+                    </p>
+                    <ul>
+                      <li>
+                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                          <strong className="font-semibold">Delivered end-to-end web and mobile solutions</strong>
+                          {" "}
+                          while providing strategic
+                          {" "}
+                          <strong className="font-semibold">technical consultancy</strong>
+                          {" "}
+                          to non-technical stakeholders.
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section id="projects" className="space-y-4">
+            <Title content="OPEN-SOURCE HIGHLIGHTS" />
+            <div>
+              <h3 className="flex items-center justify-between text-[11pt] font-semibold">
+                <a className="flex items-center gap-2" href="https://github.com/infinitered/nsfwjs" target="_blank" rel="noopener">
+                  NSFWJS
+                  {" "}
+                  <External className="size-3.5 shrink-0" />
+                </a>
+                <span className="font-mono font-normal"> Top Contributor</span>
+              </h3>
+              <div className="space-y-2">
+                <div>
+                  <ul>
+                    <li>
+                      <p className="pt-1.5 text-[10pt]/tight font-light tracking-tight">
+                        Open-source image classification library with
+                        {" "}
+                        <strong className="font-semibold">8.8K GitHub Stars</strong>
+                        {" "}
+                        for NSFW (indecent) image detection on client-side via TensorFlow.js.
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </>
   );
 }
 
