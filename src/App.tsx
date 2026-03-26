@@ -3,6 +3,7 @@ import { Email, External, Globe, Linkedin, LogoGithub, Pen, Phone } from "geist-
 import photo from "./assets/photo.jfif";
 import "./App.css";
 import Link from "./components/Link";
+import Skill from "./components/Skill";
 import Title from "./components/Title";
 
 const phone = import.meta.env.VITE_PHONE ?? "";
@@ -13,26 +14,69 @@ function App() {
     <>
       <main className="grid h-[297mm] w-[210mm] grid-cols-5 gap-2.5 p-2.5">
         <section id="header" className="col-span-2 rounded-lg bg-white/30 py-8 text-white">
-          <header className="flex flex-col items-center gap-y-8">
-            <div id="title">
+          <header className="flex flex-col items-center gap-y-5">
+            <div id="title" className="w-full px-4">
               <h1 className="text-5xl font-light">Hasitha</h1>
               <h1 className="text-4xl font-medium tracking-tight">Wickramasinghe</h1>
               <p className="text-xl">Application Architect</p>
             </div>
-            <div id="about" className="mt-22 rounded-lg border-2 bg-white/30">
-              <img className="mx-auto -mt-22 w-44 rounded-full border-4" src={photo} alt="photo" />
-              <div className="space-y-2 p-6">
-                <h2 className="font-bold">ABOUT ME</h2>
-                <p className="text-sm">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore, quas.</p>
+            <div id="about" className="mt-20 w-full rounded-lg border-2 bg-white/30">
+              <img className="mx-auto -mt-20 w-36 rounded-full border-3" src={photo} alt="photo" />
+              <div className="space-y-2 p-4">
+                <h2 className="text-sm font-semibold tracking-wider">ABOUT ME</h2>
+                <p className="text-[10pt]/tight tracking-tight">
+                  Application Architect and Sr. Full-Stack Engineer with 7+ years of experience
+                  shipping scalable and resilient web applications using a modern tech stack that includes
+                  React, Next.js, Node.js and GenAI, on AWS with Cloud-Native & AI-Native technologies
+                  such as Serverless and the Bedrock AgentCore runtime, using IaC.
+                </p>
               </div>
             </div>
-            <div id="connect" className="space-y-3 px-4 font-mono text-sm">
+            <div id="connect" className="w-full space-y-2 px-4 font-mono text-[10pt]">
               <Link icon={Phone} href={`tel:${phone}`} content={phone} />
               <Link icon={Email} href={`mailto:${email}`} content={email.split("@").join(" @")} />
               <Link icon={Linkedin} href="https://linkedin.com/in/hasitha-wickramasinghe-92483a19b" content="in/hasitha-wickramasinghe-92483a19b" />
               <Link icon={LogoGithub} href="https://github.com/haZya" content="github.com/haZya" />
               <Link icon={Globe} href="https://haZya.dev" content="https://haZya.dev" />
               <Link icon={Pen} href="https://blog.hazya.dev" content="https://blog.haZya.dev" />
+            </div>
+            <div id="skills" className="w-full space-y-2 px-4">
+              <h2 className="text-[13px] font-medium tracking-wider">TOP SKILLS</h2>
+              <div className="flex flex-wrap gap-x-1 gap-y-1.25 font-mono text-xs tracking-tight">
+                <Skill>AWS</Skill>
+                <Skill>React</Skill>
+                <Skill>Next</Skill>
+                <Skill>AWS CDK</Skill>
+                <Skill>Terraform</Skill>
+                <Skill>IaC</Skill>
+                <Skill>Express</Skill>
+                <Skill>Node.js</Skill>
+                <Skill>Strapi CMS</Skill>
+                <Skill>SEO</Skill>
+                <Skill>CI/CD</Skill>
+                <Skill>DevOps</Skill>
+                <Skill>GitHub Actions</Skill>
+                <Skill>RBAC</Skill>
+                <Skill>GenAI</Skill>
+                <Skill>RAG</Skill>
+                <Skill>Bedrock AgentCore</Skill>
+                <Skill>Platform Engineering</Skill>
+                <Skill>Cloud-Native</Skill>
+                <Skill>Microservices</Skill>
+                <Skill>Serverless</Skill>
+                <Skill>Docker</Skill>
+                <Skill>API Gateway</Skill>
+                <Skill>GraphQL Federation</Skill>
+                <Skill>Distributed Systems</Skill>
+                <Skill>Feature Flags</Skill>
+                <Skill>Event-Driven Architecture</Skill>
+                <Skill>Canary</Skill>
+                <Skill>Trunk-Based Development</Skill>
+                <Skill>GitFlow</Skill>
+                <Skill>Blue/Green</Skill>
+                <Skill>A/B Testing</Skill>
+                <Skill>Monorepo</Skill>
+              </div>
             </div>
           </header>
         </section>
@@ -130,7 +174,7 @@ function App() {
                   <span className="font-mono text-[13px] font-normal"> Houston, TX, USA (Remote)</span>
                 </h3>
                 <div className="space-y-2">
-                  <div className="relative pl-4.5 before:absolute before:top-6 before:bottom-1 before:left-0.5 before:w-0.5 before:rounded-full before:bg-slate-300">
+                  <div className="relative pl-4.5">
                     <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
                     <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
                       <span className="text-sm">Sr. Full Stack Engineer</span>
@@ -237,7 +281,7 @@ function App() {
                   <span className="font-mono text-[13px] font-normal"> Colombo, LK (Hybrid)</span>
                 </h3>
                 <div className="space-y-2">
-                  <div className="relative pl-4.5 before:absolute before:top-6 before:bottom-1 before:left-0.5 before:w-0.5 before:rounded-full before:bg-slate-300">
+                  <div className="relative pl-4.5">
                     <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
                     <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
                       <span className="text-sm">Developer | Consultant</span>
