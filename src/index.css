@@ -2,10 +2,6 @@
 
 :root {
   --text: #6b6375;
-  --text-h: #08060d;
-
-  --code-bg: #f4f3ec;
-
   --font-sans: "Geist Variable", sans-serif;
   --font-mono: "Geist Mono Variable", monospace;
 
@@ -18,14 +14,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --text: #9ca3af;
-    --text-h: #f3f4f6;
-
-    --code-bg: #1f2028;
   }
-}
+} */
 
 #root {
   box-sizing: border-box;
@@ -39,6 +32,18 @@ p {
   margin: 0;
 }
 
-.code {
-  font-family: var(--font-mono);
+@page {
+  size: A4;
+  margin: 0;
+}
+@media print {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 }
