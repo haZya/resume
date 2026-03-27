@@ -40,7 +40,13 @@ function App() {
               <p className="text-xl">Application Architect</p>
             </div>
             <div id="about" className={cn("mt-18 w-full rounded-lg border-y-2 bg-white/20", !displayPhoto && "mt-0")}>
-              <img className={cn("mx-auto -mt-18 w-36 rounded-full border-3", !displayPhoto && "hidden")} src={photo} alt="photo" />
+              <img
+                className={cn("mx-auto -mt-18 w-36 rounded-full border-3", !displayPhoto && "hidden")}
+                src={photo}
+                alt="photo"
+                width={144}
+                height={144}
+              />
               <div className="space-y-2 p-4">
                 <h2 className="text-sm font-semibold tracking-wider">ABOUT ME</h2>
                 <p className={cn("text-[10pt]/tight", !displayPhoto && "text-sm tracking-[-0.0175em]")}>
