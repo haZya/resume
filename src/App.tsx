@@ -119,7 +119,7 @@ function App() {
         <section id="body" className="col-span-3 space-y-5 rounded-lg bg-white px-6 py-8">
           <section id="education" className="space-y-4">
             <Title content="EDUCATION & CERTS" />
-            <div className="space-y-2.5">
+            <div className="space-y-2.75">
               <a
                 className="block"
                 href="https://www.credly.com/badges/b41fa631-6361-4760-ad97-ff3f59671b45"
@@ -343,7 +343,7 @@ function App() {
             </div>
           </section>
           <section id="projects" className="space-y-4">
-            <Title content="OPEN-SOURCE HIGHLIGHTS" />
+            <Title content="PROJECTS" />
             <div>
               <h3 className="flex items-center justify-between text-[11pt] font-semibold">
                 <a className="flex items-center gap-2" href="https://github.com/infinitered/nsfwjs" target="_blank" rel="noopener">
