@@ -1,33 +1,45 @@
 import { Email, External, Globe, Linkedin, LogoGithub, Pen, Phone } from "geist-icons";
+import { useState } from "react";
 
-import photo from "./assets/photo.jfif";
 import "./App.css";
+import photo from "./assets/photo.jfif";
 import Link from "./components/Link";
 import Skill from "./components/Skill";
 import Title from "./components/Title";
+import Toggle from "./components/Toggle";
+import { cn } from "./lib/cn";
 
 const phone = import.meta.env.VITE_PHONE ?? "";
 const email = import.meta.env.VITE_EMAIL ?? "";
 
 function App() {
+  const [displayPhoto, setDisplayPhoto] = useState(true);
+
+  const toggle = () => {
+    setDisplayPhoto(prev => !prev);
+  };
+
   return (
     <>
+      <div id="options" className="m-12 print:hidden">
+        <Toggle value={displayPhoto} toggle={toggle} />
+      </div>
       <main className="grid h-[297mm] w-[210mm] grid-cols-5 gap-2.5 p-2.5">
         <section id="header" className="col-span-2 rounded-lg bg-white/30 py-8 text-white">
-          <header className="flex flex-col items-center gap-y-5">
+          <header className={cn("flex flex-col items-center gap-y-5", !displayPhoto && "gap-y-6")}>
             <div id="title" className="w-full px-4">
               <h1 className="text-5xl font-light">Hasitha</h1>
               <h1 className="text-4xl font-medium tracking-tight">Wickramasinghe</h1>
               <p className="text-xl">Application Architect</p>
             </div>
-            <div id="about" className="mt-20 w-full rounded-lg border-2 bg-white/30">
-              <img className="mx-auto -mt-20 w-36 rounded-full border-3" src={photo} alt="photo" />
+            <div id="about" className={cn("mt-18 w-full rounded-lg border-y-2 bg-white/20", !displayPhoto && "mt-0")}>
+              <img className={cn("mx-auto -mt-18 w-36 rounded-full border-3", !displayPhoto && "hidden")} src={photo} alt="photo" />
               <div className="space-y-2 p-4">
                 <h2 className="text-sm font-semibold tracking-wider">ABOUT ME</h2>
-                <p className="text-[10pt]/tight tracking-tight">
+                <p className={cn("text-[10pt]/tight tracking-tight", !displayPhoto && "text-sm")}>
                   Application Architect and Sr. Full-Stack Engineer with 7+ years of experience
                   shipping scalable and resilient web applications using a modern tech stack that includes
-                  React, Next.js, Node.js and GenAI, on AWS with Cloud-Native & AI-Native technologies
+                  React, Next.js, Node.js and GenAI, on AWS leveraging Cloud-Native & AI-Native technologies
                   such as Serverless and the Bedrock AgentCore runtime, using IaC.
                 </p>
               </div>
@@ -76,6 +88,17 @@ function App() {
                 <Skill>Blue/Green</Skill>
                 <Skill>A/B Testing</Skill>
                 <Skill>Monorepo</Skill>
+              </div>
+            </div>
+            <div id="hobbies" className={cn("w-full space-y-2 px-4", displayPhoto && "hidden")}>
+              <h2 className="text-[13px] font-medium tracking-wider">HOBBIES</h2>
+              <div className="flex flex-wrap gap-x-1 gap-y-1.25 font-mono text-xs tracking-tight">
+                <Skill>Custom PC Building</Skill>
+                <Skill>Anime</Skill>
+                <Skill>Gaming</Skill>
+                <Skill>Reading</Skill>
+                <Skill>Cricket</Skill>
+                <Skill>Music</Skill>
               </div>
             </div>
           </header>
