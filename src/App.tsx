@@ -1,30 +1,37 @@
+import type { CSSProperties } from "react";
+
 import { Email, External, Globe, Linkedin, LogoGithub, Pen, Phone } from "geist-icons";
 import { useState } from "react";
 
 import "./App.css";
 import photo from "./assets/photo.jfif";
 import Link from "./components/Link";
+import Options from "./components/Options";
 import Skill from "./components/Skill";
 import Title from "./components/Title";
-import Toggle from "./components/Toggle";
 import { cn } from "./lib/cn";
+import { DEFAULT_GRADIENT, getGradientCssVar } from "./lib/resumeOptions";
 
 const phone = import.meta.env.VITE_PHONE ?? "";
 const email = import.meta.env.VITE_EMAIL ?? "";
 
 function App() {
   const [displayPhoto, setDisplayPhoto] = useState(true);
+  const [selectedGradient, setSelectedGradient] = useState(DEFAULT_GRADIENT);
 
-  const toggle = () => {
-    setDisplayPhoto(prev => !prev);
+  const mainStyle: CSSProperties & Record<"--resume-gradient-active", string> = {
+    "--resume-gradient-active": `var(${getGradientCssVar(selectedGradient)})`,
   };
 
   return (
     <>
-      <div id="options" className="m-12 print:hidden">
-        <Toggle value={displayPhoto} toggle={toggle} />
-      </div>
-      <main className="grid h-[297mm] w-[210mm] grid-cols-5 gap-2.5 p-2.5">
+      <Options
+        displayPhoto={displayPhoto}
+        selectedGradient={selectedGradient}
+        setDisplayPhoto={setDisplayPhoto}
+        setSelectedGradient={setSelectedGradient}
+      />
+      <main style={mainStyle} className="grid h-[297mm] w-[210mm] grid-cols-5 gap-2.5 p-2.5">
         <section id="header" className="col-span-2 rounded-lg bg-white/30 py-8 text-white">
           <header className={cn("flex flex-col items-center gap-y-5", !displayPhoto && "gap-y-6")}>
             <div id="title" className="w-full px-4">

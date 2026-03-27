@@ -1,4 +1,14 @@
+:root {
+  --resume-gradient-slate-gray: linear-gradient(135deg, #201e2e 0%, #928ea9 100%);
+  --resume-gradient-cobalt: linear-gradient(135deg, #103783 0%, #9bafd9 100%);
+  --resume-gradient-midnight: linear-gradient(135deg, #00020f 0%, #928ea9 100%);
+  --resume-gradient-night-petal: linear-gradient(135deg, #392d69 0%, #b57bee 100%);
+  --resume-gradient-ocean-mint: linear-gradient(135deg, #005578 0%, #058296 100%);
+  --resume-gradient-plum: linear-gradient(135deg, #392d69 0%, #371784 100%);
+  --resume-gradient-active: var(--resume-gradient-cobalt);
+}
+
 main {
   background: #201e2e;
-  background: linear-gradient(135deg, #201e2e 0%, #928ea9 100%);
+  background: var(--resume-gradient-active);
 }

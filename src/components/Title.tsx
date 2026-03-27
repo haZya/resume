@@ -1,8 +1,16 @@
 function Title({ content }: { content: string }) {
   return (
     <div className="flex w-full place-items-center">
-      <h2 className="w-fit rounded-full bg-black px-5 py-1 text-[13px] font-medium tracking-wider text-white">{content}</h2>
-      <hr className="grow border" />
+      <h2
+        style={{ backgroundImage: "var(--resume-gradient-active)" }}
+        className="w-fit rounded-full px-5 py-1 text-[13px] font-medium tracking-wider text-white"
+      >
+        {content}
+      </h2>
+      <hr
+        style={{ backgroundImage: "var(--resume-gradient-active)" }}
+        className="ml-2 h-0.5 grow rotate-180 border-0"
+      />
     </div>
   );
 }
