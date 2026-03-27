@@ -35,19 +35,19 @@ function App() {
         <section id="header" className="col-span-2 rounded-lg bg-white/30 py-8 text-white">
           <header className={cn("flex flex-col items-center gap-y-5", !displayPhoto && "gap-y-6")}>
             <div id="title" className="w-full px-4">
-              <h1 className="text-5xl font-light">Hasitha</h1>
-              <h1 className="text-4xl font-medium tracking-tight">Wickramasinghe</h1>
+              <h1 className="text-5xl font-extralight">Hasitha</h1>
+              <h1 className="text-4xl font-semibold tracking-[-0.035em]">Wickramasinghe</h1>
               <p className="text-xl">Application Architect</p>
             </div>
             <div id="about" className={cn("mt-18 w-full rounded-lg border-y-2 bg-white/20", !displayPhoto && "mt-0")}>
               <img className={cn("mx-auto -mt-18 w-36 rounded-full border-3", !displayPhoto && "hidden")} src={photo} alt="photo" />
               <div className="space-y-2 p-4">
                 <h2 className="text-sm font-semibold tracking-wider">ABOUT ME</h2>
-                <p className={cn("text-[10pt]/tight tracking-tight", !displayPhoto && "text-sm")}>
+                <p className={cn("text-[10pt]/tight", !displayPhoto && "text-sm tracking-[-0.0175em]")}>
                   Application Architect and Sr. Full-Stack Engineer with 7+ years of experience
                   shipping scalable and resilient web applications using a modern tech stack that includes
                   React, Next.js, Node.js and GenAI, on AWS leveraging Cloud-Native & AI-Native technologies
-                  such as Serverless and the Bedrock AgentCore runtime, using IaC.
+                  such as Serverless and the Bedrock AgentCore runtime, with IaC.
                 </p>
               </div>
             </div>
@@ -116,17 +116,6 @@ function App() {
             <div className="space-y-2.5">
               <a
                 className="block"
-                href="https://www.credly.com/badges/3a25dc02-285a-43b9-80cc-42d7f108591d"
-                target="_blank"
-                rel="noopener"
-              >
-                <h3 className="text-[11pt]/tight font-semibold">
-                  AWS Certified Solutions Architect - Professional
-                </h3>
-                <p className="font-mono text-[13px] tracking-tight">Issued Jan 2026 · Expires Jan 2029</p>
-              </a>
-              <a
-                className="block"
                 href="https://www.credly.com/badges/b41fa631-6361-4760-ad97-ff3f59671b45"
                 target="_blank"
                 rel="noopener"
@@ -136,13 +125,24 @@ function App() {
                 </h3>
                 <p className="font-mono text-[13px] tracking-tight">Issued Mar 2026 · Expires Mar 2029 (Early Adopter)</p>
               </a>
+              <a
+                className="block"
+                href="https://www.credly.com/badges/3a25dc02-285a-43b9-80cc-42d7f108591d"
+                target="_blank"
+                rel="noopener"
+              >
+                <h3 className="text-[11pt]/tight font-semibold">
+                  AWS Certified Solutions Architect - Professional
+                </h3>
+                <p className="font-mono text-[13px] tracking-tight">Issued Jan 2026 · Expires Jan 2029</p>
+              </a>
               <div>
                 <h3 className="text-[11pt]/tight font-semibold">
-                  BEng (Hons) in Software Engineering
+                  BEng (Hons) in Software Engineering - First-Class Honours
                   {" "}
-                  <span className="font-normal">(2019)</span>
+                  <span className="font-normal"></span>
                 </h3>
-                <p className="font-mono text-[13px] tracking-tight">London Metropolitan University</p>
+                <p className="font-mono text-[13px] tracking-tight">London Metropolitan University (2019)</p>
               </div>
             </div>
           </section>
