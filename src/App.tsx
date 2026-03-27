@@ -358,11 +358,11 @@ function App() {
                   <ul>
                     <li>
                       <p className="pt-1.5 text-[10pt]/tight font-light tracking-tight">
-                        Open-source image classification library with
+                        Open-source ML-based image classification library with
                         {" "}
                         <strong className="font-semibold">8.8K GitHub Stars</strong>
                         {" "}
-                        for NSFW (indecent) image detection on client-side via TensorFlow.js.
+                        for indecent image detection on client-side via TensorFlow.js.
                       </p>
                     </li>
                   </ul>
