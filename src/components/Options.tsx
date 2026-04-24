@@ -23,7 +23,16 @@ function Options({
 }: OptionsProps) {
   return (
     <section id="options" className="m-12 flex flex-col gap-10 print:hidden">
-      <Toggle id="ats-optimized" label="ATS Format" value={atsOptimized} toggle={() => setAtsOptimized(!atsOptimized)} />
+      <div className="flex flex-wrap items-end gap-12">
+        <Toggle id="ats-optimized" label="ATS Format" value={atsOptimized} toggle={() => setAtsOptimized(!atsOptimized)} />
+        <button
+          type="button"
+          className="cursor-pointer rounded-md border border-slate-800 bg-slate-900 px-4 py-2 font-mono text-xs tracking-wide text-white transition-colors hover:bg-slate-800"
+          onClick={() => window.print()}
+        >
+          Print / Download
+        </button>
+      </div>
       {!atsOptimized && (
         <div className="flex flex-wrap gap-12">
           <Toggle id="display-photo" label="Photo" value={displayPhoto} toggle={() => setDisplayPhoto(!displayPhoto)} />

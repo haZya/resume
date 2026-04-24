@@ -1,6 +1,6 @@
 function Toggle({ id, label, value, toggle }: { id: string; label: string; value: boolean; toggle: () => void }) {
   return (
-    <div className="flex flex-col justify-center gap-2 gap-x-3">
+    <div className="flex w-20 flex-col justify-center gap-2 gap-x-3">
       <label htmlFor={id} className="text-muted-foreground-1 text-sm">{label}</label>
       <label htmlFor={id} className="relative inline-block h-8 w-15 cursor-pointer">
         <input type="checkbox" id={id} className="peer sr-only" checked={value} onChange={toggle} />
