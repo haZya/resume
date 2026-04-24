@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
 import { Email, External, Globe, Linkedin, Location, LogoGithub, Pen, Phone } from "geist-icons";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 import "./App.css";
 import photo from "./assets/photo.jfif";
@@ -14,15 +14,71 @@ import { DEFAULT_GRADIENT, getGradientCssVar } from "./lib/resumeOptions";
 
 const phone = import.meta.env.VITE_PHONE ?? "";
 const email = import.meta.env.VITE_EMAIL ?? "";
+const A4_WIDTH_PX = 210 * 96 / 25.4;
+const A4_HEIGHT_PX = 297 * 96 / 25.4;
+const SCREEN_GUTTER_PX = 32;
+
+type ResumePreviewState = {
+  height: number;
+  scale: number;
+};
 
 function App() {
   const [atsOptimized, setAtsOptimized] = useState(false);
   const [displayPhoto, setDisplayPhoto] = useState(true);
+  const [resumePreview, setResumePreview] = useState<ResumePreviewState>({ height: A4_HEIGHT_PX, scale: 1 });
   const [selectedGradient, setSelectedGradient] = useState(DEFAULT_GRADIENT);
+  const resumeRef = useRef<HTMLElement>(null);
 
   const mainStyle: CSSProperties & Record<"--resume-gradient-active", string> = {
     "--resume-gradient-active": `var(${getGradientCssVar(selectedGradient)})`,
   };
+
+  const resumePreviewStyle: CSSProperties & Record<"--resume-preview-height" | "--resume-preview-scale" | "--resume-preview-width", string> = {
+    "--resume-preview-height": `${resumePreview.height}px`,
+    "--resume-preview-scale": String(resumePreview.scale),
+    "--resume-preview-width": `${A4_WIDTH_PX * resumePreview.scale}px`,
+  };
+
+  useLayoutEffect(() => {
+    const resumeElement = resumeRef.current;
+
+    if (!resumeElement) {
+      return;
+    }
+
+    let animationFrame = 0;
+
+    function updatePreviewScale() {
+      cancelAnimationFrame(animationFrame);
+
+      animationFrame = requestAnimationFrame(() => {
+        const availableWidth = Math.max(window.innerWidth - SCREEN_GUTTER_PX, 1);
+        const scale = Math.min(1, availableWidth / A4_WIDTH_PX);
+        const height = Math.max(resumeElement?.scrollHeight ?? 0, A4_HEIGHT_PX) * scale;
+
+        setResumePreview((current) => {
+          if (Math.abs(current.scale - scale) < 0.001 && Math.abs(current.height - height) < 1) {
+            return current;
+          }
+
+          return { height, scale };
+        });
+      });
+    }
+
+    const resizeObserver = new ResizeObserver(updatePreviewScale);
+
+    resizeObserver.observe(resumeElement);
+    window.addEventListener("resize", updatePreviewScale);
+    updatePreviewScale();
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updatePreviewScale);
+    };
+  }, [atsOptimized, displayPhoto]);
 
   const contactLinks = (
     <div id="connect" className="w-full space-y-2 px-4 font-mono text-[10pt]">
@@ -80,7 +136,7 @@ function App() {
   );
 
   return (
-    <>
+    <div style={resumePreviewStyle} className="resume-shell">
       <Options
         atsOptimized={atsOptimized}
         displayPhoto={displayPhoto}
@@ -89,308 +145,310 @@ function App() {
         setDisplayPhoto={setDisplayPhoto}
         setSelectedGradient={setSelectedGradient}
       />
-      <main style={mainStyle} className={cn("grid grid-cols-5 gap-2.5 p-2.5", atsOptimized && "ats-optimized")}>
-        <section id="header" className="col-span-2 rounded-lg bg-white/30 py-8 text-white">
-          <header className={cn("flex flex-col items-center gap-y-5", !displayPhoto && "gap-y-6")}>
-            <div id="title" className="w-full px-4">
-              <h1 className="text-5xl font-extralight">Hasitha</h1>
-              <h1 className="text-4xl font-semibold tracking-[-0.035em]">Wickramasinghe</h1>
-              <p className="text-xl">Application Architect</p>
-            </div>
-            {atsOptimized && contactLinks}
-            <div id="about" className={cn("mt-18 w-full rounded-lg border-y-2 bg-white/20", !displayPhoto && "mt-0")}>
-              <img
-                className={cn("mx-auto -mt-18 w-38 rounded-full border-3", !displayPhoto && "hidden")}
-                src={photo}
-                alt="photo"
-                width={144}
-                height={144}
-              />
-              <div className={cn("p-4", atsOptimized ? "space-y-4" : "space-y-2")}>
-                {atsOptimized
-                  ? <Title atsOptimized={atsOptimized} content="SUMMARY" />
-                  : <h2 className="text-sm font-semibold tracking-wider">ABOUT ME</h2>}
-                <p className={cn("text-[10pt]/tight", !displayPhoto && "text-sm tracking-[-0.0175em]")}>
-                  Application Architect and Sr. Full-Stack Engineer with 7+ years of experience
-                  shipping scalable and resilient web applications using a modern tech stack that includes
-                  React, Next.js, Node.js and GenAI, on AWS leveraging Cloud-Native & AI-Native technologies
-                  such as Serverless and the Bedrock AgentCore runtime, with IaC.
-                </p>
+      <div className="resume-preview">
+        <main ref={resumeRef} style={mainStyle} className={cn("grid grid-cols-5 gap-2.5 p-2.5", atsOptimized && "ats-optimized")}>
+          <section id="header" className="col-span-2 rounded-lg bg-white/30 py-8 text-white">
+            <header className={cn("flex flex-col items-center gap-y-5", !displayPhoto && "gap-y-6")}>
+              <div id="title" className="w-full px-4">
+                <h1 className="text-5xl font-extralight">Hasitha</h1>
+                <h1 className="text-4xl font-semibold tracking-[-0.035em]">Wickramasinghe</h1>
+                <p className="text-xl">Application Architect</p>
               </div>
-            </div>
-            {!atsOptimized && contactLinks}
-            {!atsOptimized && skillsSection}
-            <div id="hobbies" className={cn("w-full space-y-2 px-4", displayPhoto && "hidden")}>
-              <h2 className="text-[13px] font-medium tracking-wider">HOBBIES</h2>
-              <div className="flex flex-wrap gap-x-1 gap-y-1.25 font-mono text-xs tracking-tight">
-                <Skill>Custom PC Building</Skill>
-                <Skill>Anime</Skill>
-                <Skill>Gaming</Skill>
-                <Skill>Reading</Skill>
-                <Skill>Cricket</Skill>
-                <Skill>Music</Skill>
+              {atsOptimized && contactLinks}
+              <div id="about" className={cn("mt-18 w-full rounded-lg border-y-2 bg-white/20", !displayPhoto && "mt-0")}>
+                <img
+                  className={cn("mx-auto -mt-18 w-38 rounded-full border-3", !displayPhoto && "hidden")}
+                  src={photo}
+                  alt="photo"
+                  width={144}
+                  height={144}
+                />
+                <div className={cn("p-4", atsOptimized ? "space-y-4" : "space-y-2")}>
+                  {atsOptimized
+                    ? <Title atsOptimized={atsOptimized} content="SUMMARY" />
+                    : <h2 className="text-sm font-semibold tracking-wider">ABOUT ME</h2>}
+                  <p className={cn("text-[10pt]/tight", !displayPhoto && "text-sm tracking-[-0.0175em]")}>
+                    Application Architect and Sr. Full-Stack Engineer with 7+ years of experience
+                    shipping scalable and resilient web applications using a modern tech stack that includes
+                    React, Next.js, Node.js and GenAI, on AWS leveraging Cloud-Native & AI-Native technologies
+                    such as Serverless and the Bedrock AgentCore runtime, with IaC.
+                  </p>
+                </div>
               </div>
-            </div>
-          </header>
-        </section>
-        <section id="body" className="col-span-3 space-y-5 rounded-lg bg-white px-6 py-8">
-          <section id="education" className="space-y-4">
-            <Title atsOptimized={atsOptimized} content="EDUCATION & CERTS" />
-            <div className="space-y-2.75">
-              <a
-                className="block"
-                href="https://www.credly.com/badges/b41fa631-6361-4760-ad97-ff3f59671b45"
-                target="_blank"
-                rel="noopener"
-              >
-                <h3 className="text-[11pt]/tight font-semibold">
-                  AWS Certified Generative AI Developer - Professional
-                </h3>
-                <p className="font-mono text-[13px] tracking-tight">Issued Mar 2026 · Expires Mar 2029 (Early Adopter)</p>
-              </a>
-              <a
-                className="block"
-                href="https://www.credly.com/badges/3a25dc02-285a-43b9-80cc-42d7f108591d"
-                target="_blank"
-                rel="noopener"
-              >
-                <h3 className="text-[11pt]/tight font-semibold">
-                  AWS Certified Solutions Architect - Professional
-                </h3>
-                <p className="font-mono text-[13px] tracking-tight">Issued Jan 2026 · Expires Jan 2029</p>
-              </a>
-              <div>
-                <h3 className="text-[11pt]/tight font-semibold">
-                  BEng (Hons) in Software Engineering - First-Class Honours
-                  {" "}
-                  <span className="font-normal"></span>
-                </h3>
-                <p className="font-mono text-[13px] tracking-tight">London Metropolitan University (2019)</p>
+              {!atsOptimized && contactLinks}
+              {!atsOptimized && skillsSection}
+              <div id="hobbies" className={cn("w-full space-y-2 px-4", displayPhoto && "hidden")}>
+                <h2 className="text-[13px] font-medium tracking-wider">HOBBIES</h2>
+                <div className="flex flex-wrap gap-x-1 gap-y-1.25 font-mono text-xs tracking-tight">
+                  <Skill>Custom PC Building</Skill>
+                  <Skill>Anime</Skill>
+                  <Skill>Gaming</Skill>
+                  <Skill>Reading</Skill>
+                  <Skill>Cricket</Skill>
+                  <Skill>Music</Skill>
+                </div>
               </div>
-            </div>
+            </header>
           </section>
-          <section id="experience" className="space-y-4">
-            <Title atsOptimized={atsOptimized} content="EXPERIENCE" />
-            <div className="space-y-3">
-              <div>
-                <h3 className="flex items-center justify-between text-[11pt] font-semibold">
-                  Jaiden Group
-                  <span className="font-mono text-[13px] font-normal"> Houston, TX, USA (Remote)</span>
-                </h3>
-                <div className="space-y-2">
-                  <div className="relative pl-4.5 before:absolute before:top-6 before:-bottom-2 before:left-0.5 before:w-0.5 before:rounded-full before:bg-slate-300">
-                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
-                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
-                      <span className="text-sm">Application Architect</span>
-                      {" "}
-                      Feb 2025 - Present
-                    </p>
-                    <ul>
-                      <li>
-                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
-                          <strong className="font-semibold">Driving the transition to cloud-native</strong>
-                          {" "}
-                          architectures, leveraging Serverless & Microservices to enhance scalability and cost-efficiency.
-                        </p>
-                      </li>
-                      <li>
-                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
-                          <strong className="font-semibold">Standardized DevOps workflows</strong>
-                          {" "}
-                          by implementing automated CI/CD pipelines via GitHub Actions across all active projects.
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="relative pl-4.5">
-                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
-                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
-                      <span className="text-sm">Sr. Full Stack Developer</span>
-                      {" "}
-                      Feb 2023 - Feb 2025
-                    </p>
-                    <ul>
-                      <li>
-                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
-                          <strong className="font-semibold">Accelerated deployment cycles</strong>
-                          {" "}
-                          by transitioning internal tools to IaC (AWS CDK & CloudFormation), significantly reducing manual overhead and infrastructure drift.
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <h3 className="flex items-center justify-between text-[11pt] font-semibold">
-                  Sketch Your Brand
-                  <span className="font-mono text-[13px] font-normal"> Houston, TX, USA (Remote)</span>
-                </h3>
-                <div className="space-y-2">
-                  <div className="relative pl-4.5">
-                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
-                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
-                      <span className="text-sm">Sr. Full Stack Engineer</span>
-                      {" "}
-                      Mar 2024 - Present
-                    </p>
-                    <ul>
-                      <li>
-                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
-                          <strong className="font-semibold">Architected event-driven workflows</strong>
-                          {" "}
-                          using AWS Step Functions to handle complex business logic and
-                          {" "}
-                          <strong className="font-semibold">workflow automation</strong>
-                          .
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <h3 className="flex items-center justify-between text-[11pt] font-semibold">
-                  Ok Webs IT Solutions
-                  <span className="font-mono text-[13px] font-normal"> Colombo, LK (On-site)</span>
-                </h3>
-                <div className="space-y-2">
-                  <div className="relative pl-4.5 before:absolute before:top-6 before:-bottom-2 before:left-0.5 before:w-0.5 before:rounded-full before:bg-slate-300">
-                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
-                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
-                      <span className="text-sm">Technical Lead</span>
-                      {" "}
-                      Jul 2022 - Present
-                    </p>
-                    <ul>
-                      <li>
-                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
-                          <strong className="font-semibold">Led the architecture and delivery</strong>
-                          {" "}
-                          of high-scale cloud solutions, including an
-                          {" "}
-                          <strong className="font-semibold">ML-driven recommendation engine</strong>
-                          {" "}
-                          for a dating platform and a property
-                          {" "}
-                          <strong className="font-semibold">service marketplace</strong>
-                          {" "}
-                          for the ANZ market.
-                        </p>
-                      </li>
-                      <li>
-                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
-                          <strong className="font-semibold">Mentored a cross-functional team</strong>
-                          {" "}
-                          through rigorous code reviews and technical roadmap planning.
-                        </p>
-                      </li>
-                      <li>
-                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
-                          <strong className="font-semibold">Streamlined internal operations</strong>
-                          {" "}
-                          by building a custom
-                          {" "}
-                          <strong className="font-semibold">AWS deployment portal</strong>
-                          {" "}
-                          using Coolify and Service Catalog to empower non-technical teams with
-                          {" "}
-                          <strong className="font-semibold">one-click infra provisioning</strong>
-                          .
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="relative pl-4.5">
-                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
-                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
-                      <span className="text-sm">Full Stack Web Developer</span>
-                      {" "}
-                      Aug 2020 - Jul 2022
-                    </p>
-                    <ul>
-                      <li>
-                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
-                          <strong className="font-semibold">Owned the full-stack development lifecycle</strong>
-                          {" "}
-                          for diverse web applications, ranging from an
-                          {" "}
-                          <strong className="font-semibold">online exam system</strong>
-                          {" "}
-                          to a complex
-                          {" "}
-                          <strong className="font-semibold">inventory management</strong>
-                          {" "}
-                          SPA integrated with Clover.
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <h3 className="flex items-center justify-between text-[11pt] font-semibold">
-                  Self-employed
-                  <span className="font-mono text-[13px] font-normal"> Colombo, LK (Hybrid)</span>
-                </h3>
-                <div className="space-y-2">
-                  <div className="relative pl-4.5">
-                    <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
-                    <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
-                      <span className="text-sm">Developer | Consultant</span>
-                      {" "}
-                      Jun 2019 - Aug 2020
-                    </p>
-                    <ul>
-                      <li>
-                        <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
-                          <strong className="font-semibold">Delivered end-to-end web and mobile solutions</strong>
-                          {" "}
-                          while providing strategic
-                          {" "}
-                          <strong className="font-semibold">technical consultancy</strong>
-                          {" "}
-                          to non-technical stakeholders.
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section id="projects" className="space-y-4">
-            <Title atsOptimized={atsOptimized} content="PROJECTS" />
-            <div>
-              <h3 className="flex items-center justify-between text-[11pt] font-semibold">
-                <a className="flex items-center gap-2" href="https://github.com/infinitered/nsfwjs" target="_blank" rel="noopener">
-                  NSFWJS
-                  {" "}
-                  <External className="size-3.5 shrink-0" />
+          <section id="body" className="col-span-3 space-y-5 rounded-lg bg-white px-6 py-8">
+            <section id="education" className="space-y-4">
+              <Title atsOptimized={atsOptimized} content="EDUCATION & CERTS" />
+              <div className="space-y-2.75">
+                <a
+                  className="block"
+                  href="https://www.credly.com/badges/b41fa631-6361-4760-ad97-ff3f59671b45"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <h3 className="text-[11pt]/tight font-semibold">
+                    AWS Certified Generative AI Developer - Professional
+                  </h3>
+                  <p className="font-mono text-[13px] tracking-tight">Issued Mar 2026 · Expires Mar 2029 (Early Adopter)</p>
                 </a>
-                <span className="font-mono font-normal"> Top Contributor</span>
-              </h3>
-              <div className="space-y-2">
+                <a
+                  className="block"
+                  href="https://www.credly.com/badges/3a25dc02-285a-43b9-80cc-42d7f108591d"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <h3 className="text-[11pt]/tight font-semibold">
+                    AWS Certified Solutions Architect - Professional
+                  </h3>
+                  <p className="font-mono text-[13px] tracking-tight">Issued Jan 2026 · Expires Jan 2029</p>
+                </a>
                 <div>
-                  <ul>
-                    <li>
-                      <p className="pt-1.5 text-[10pt]/tight font-light tracking-tight">
-                        Open-source ML-based image classification library with
-                        {" "}
-                        <strong className="font-semibold">8.8K GitHub Stars</strong>
-                        {" "}
-                        for indecent image detection on client-side via TensorFlow.js.
-                      </p>
-                    </li>
-                  </ul>
+                  <h3 className="text-[11pt]/tight font-semibold">
+                    BEng (Hons) in Software Engineering - First-Class Honours
+                    {" "}
+                    <span className="font-normal"></span>
+                  </h3>
+                  <p className="font-mono text-[13px] tracking-tight">London Metropolitan University (2019)</p>
                 </div>
               </div>
-            </div>
+            </section>
+            <section id="experience" className="space-y-4">
+              <Title atsOptimized={atsOptimized} content="EXPERIENCE" />
+              <div className="space-y-3">
+                <div>
+                  <h3 className="flex items-center justify-between text-[11pt] font-semibold">
+                    Jaiden Group
+                    <span className="font-mono text-[13px] font-normal"> Houston, TX, USA (Remote)</span>
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="relative pl-4.5 before:absolute before:top-6 before:-bottom-2 before:left-0.5 before:w-0.5 before:rounded-full before:bg-slate-300">
+                      <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                      <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                        <span className="text-sm">Application Architect</span>
+                        {" "}
+                        Feb 2025 - Present
+                      </p>
+                      <ul>
+                        <li>
+                          <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                            <strong className="font-semibold">Driving the transition to cloud-native</strong>
+                            {" "}
+                            architectures, leveraging Serverless & Microservices to enhance scalability and cost-efficiency.
+                          </p>
+                        </li>
+                        <li>
+                          <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                            <strong className="font-semibold">Standardized DevOps workflows</strong>
+                            {" "}
+                            by implementing automated CI/CD pipelines via GitHub Actions across all active projects.
+                          </p>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="relative pl-4.5">
+                      <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                      <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                        <span className="text-sm">Sr. Full Stack Developer</span>
+                        {" "}
+                        Feb 2023 - Feb 2025
+                      </p>
+                      <ul>
+                        <li>
+                          <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                            <strong className="font-semibold">Accelerated deployment cycles</strong>
+                            {" "}
+                            by transitioning internal tools to IaC (AWS CDK & CloudFormation), significantly reducing manual overhead and infrastructure drift.
+                          </p>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="flex items-center justify-between text-[11pt] font-semibold">
+                    Sketch Your Brand
+                    <span className="font-mono text-[13px] font-normal"> Houston, TX, USA (Remote)</span>
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="relative pl-4.5">
+                      <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                      <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                        <span className="text-sm">Sr. Full Stack Engineer</span>
+                        {" "}
+                        Mar 2024 - Present
+                      </p>
+                      <ul>
+                        <li>
+                          <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                            <strong className="font-semibold">Architected event-driven workflows</strong>
+                            {" "}
+                            using AWS Step Functions to handle complex business logic and
+                            {" "}
+                            <strong className="font-semibold">workflow automation</strong>
+                            .
+                          </p>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="flex items-center justify-between text-[11pt] font-semibold">
+                    Ok Webs IT Solutions
+                    <span className="font-mono text-[13px] font-normal"> Colombo, LK (On-site)</span>
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="relative pl-4.5 before:absolute before:top-6 before:-bottom-2 before:left-0.5 before:w-0.5 before:rounded-full before:bg-slate-300">
+                      <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                      <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                        <span className="text-sm">Technical Lead</span>
+                        {" "}
+                        Jul 2022 - Present
+                      </p>
+                      <ul>
+                        <li>
+                          <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                            <strong className="font-semibold">Led the architecture and delivery</strong>
+                            {" "}
+                            of high-scale cloud solutions, including an
+                            {" "}
+                            <strong className="font-semibold">ML-driven recommendation engine</strong>
+                            {" "}
+                            for a dating platform and a property
+                            {" "}
+                            <strong className="font-semibold">service marketplace</strong>
+                            {" "}
+                            for the ANZ market.
+                          </p>
+                        </li>
+                        <li>
+                          <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                            <strong className="font-semibold">Mentored a cross-functional team</strong>
+                            {" "}
+                            through rigorous code reviews and technical roadmap planning.
+                          </p>
+                        </li>
+                        <li>
+                          <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                            <strong className="font-semibold">Streamlined internal operations</strong>
+                            {" "}
+                            by building a custom
+                            {" "}
+                            <strong className="font-semibold">AWS deployment portal</strong>
+                            {" "}
+                            using Coolify and Service Catalog to empower non-technical teams with
+                            {" "}
+                            <strong className="font-semibold">one-click infra provisioning</strong>
+                            .
+                          </p>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="relative pl-4.5">
+                      <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                      <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                        <span className="text-sm">Full Stack Web Developer</span>
+                        {" "}
+                        Aug 2020 - Jul 2022
+                      </p>
+                      <ul>
+                        <li>
+                          <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                            <strong className="font-semibold">Owned the full-stack development lifecycle</strong>
+                            {" "}
+                            for diverse web applications, ranging from an
+                            {" "}
+                            <strong className="font-semibold">online exam system</strong>
+                            {" "}
+                            to a complex
+                            {" "}
+                            <strong className="font-semibold">inventory management</strong>
+                            {" "}
+                            SPA integrated with Clover.
+                          </p>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="flex items-center justify-between text-[11pt] font-semibold">
+                    Self-employed
+                    <span className="font-mono text-[13px] font-normal"> Colombo, LK (Hybrid)</span>
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="relative pl-4.5">
+                      <span className="absolute top-2 left-0 size-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+                      <p className="flex items-center justify-between font-mono text-[13px] tracking-tight">
+                        <span className="text-sm">Developer | Consultant</span>
+                        {" "}
+                        Jun 2019 - Aug 2020
+                      </p>
+                      <ul>
+                        <li>
+                          <p className="pt-1.25 text-[10pt]/tight font-light tracking-tight">
+                            <strong className="font-semibold">Delivered end-to-end web and mobile solutions</strong>
+                            {" "}
+                            while providing strategic
+                            {" "}
+                            <strong className="font-semibold">technical consultancy</strong>
+                            {" "}
+                            to non-technical stakeholders.
+                          </p>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section id="projects" className="space-y-4">
+              <Title atsOptimized={atsOptimized} content="PROJECTS" />
+              <div>
+                <h3 className="flex items-center justify-between text-[11pt] font-semibold">
+                  <a className="flex items-center gap-2" href="https://github.com/infinitered/nsfwjs" target="_blank" rel="noopener">
+                    NSFWJS
+                    {" "}
+                    <External className="size-3.5 shrink-0" />
+                  </a>
+                  <span className="font-mono font-normal"> Top Contributor</span>
+                </h3>
+                <div className="space-y-2">
+                  <div>
+                    <ul>
+                      <li>
+                        <p className="pt-1.5 text-[10pt]/tight font-light tracking-tight">
+                          Open-source ML-based image classification library with
+                          {" "}
+                          <strong className="font-semibold">8.8K GitHub Stars</strong>
+                          {" "}
+                          for indecent image detection on client-side via TensorFlow.js.
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+            {atsOptimized && skillsSection}
           </section>
-          {atsOptimized && skillsSection}
-        </section>
-      </main>
-    </>
+        </main>
+      </div>
+    </div>
   );
 }
 

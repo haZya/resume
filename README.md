@@ -1,75 +1,89 @@
-# React + TypeScript + Vite
+# Resume
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A single-page resume site built with React 19, TypeScript, Vite 8, and Tailwind CSS 4.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Visual A4 resume layout with configurable gradient theme.
+- Optional photo toggle for the visual resume.
+- ATS-optimized format with a one-column, text-first layout.
+- ATS-specific section order: contact details, summary, education, experience, projects, skills.
+- Print-specific CSS for A4 PDF output.
+- `Print / Download` button that opens the browser print dialog for saving as PDF.
 
-## React Compiler
+## Setup
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+Install dependencies:
 
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```sh
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Copy the example environment file for local contact values:
 
-```js
-import reactDom from "eslint-plugin-react-dom";
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```sh
+cp .env.example .env.local
 ```
+
+Supported environment variables:
+
+- `VITE_PHONE`
+- `VITE_EMAIL`
+
+## Scripts
+
+Start the development server:
+
+```sh
+npm run dev
+```
+
+Run lint checks:
+
+```sh
+npm run lint
+```
+
+Build the production bundle:
+
+```sh
+npm run build
+```
+
+Preview the production build:
+
+```sh
+npm run preview
+```
+
+## Resume Controls
+
+- `ATS Format` switches between the visual resume and ATS-optimized layout.
+- `Print / Download` opens the browser print dialog.
+- `Photo` controls the visual resume photo and is hidden in ATS mode.
+- `Theme` controls the visual resume gradient and is hidden in ATS mode.
+
+## Printing
+
+Use `Print / Download` and choose `Save as PDF` in the browser print dialog.
+
+Recommended print settings:
+
+- Paper size: A4
+- Scale: 100%
+- Background graphics: enabled if available
+
+Browsers do not allow websites to set `Save as PDF` as the default printer destination. For true direct PDF download, use server-side generation with Playwright or Puppeteer.
+
+## Project Layout
+
+- `src/App.tsx` contains the resume content, UI state, and ATS-specific section ordering.
+- `src/components/Options.tsx` contains the print-hidden controls.
+- `src/components/Title.tsx` renders visual and ATS section headings.
+- `src/lib/resumeOptions.ts` contains gradient options and helpers.
+- `src/App.css` contains gradient variables, ATS layout rules, and A4 print styles.
+- `src/index.css` contains global tokens and print setup.
+
+## Testing
+
+There is no test runner configured yet. Use `npm run lint` and `npm run build` for verification.

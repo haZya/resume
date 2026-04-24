@@ -9,8 +9,29 @@
 }
 
 main {
+  width: 210mm;
+  min-height: 297mm;
   background: #201e2e;
   background: var(--resume-gradient-active);
+}
+
+main:not(.ats-optimized) {
+  height: 297mm;
+}
+
+.resume-shell {
+  width: var(--resume-preview-width, 210mm);
+}
+
+.resume-preview {
+  min-height: var(--resume-preview-height, 297mm);
+  margin-bottom: 2rem;
+  overflow: visible;
+}
+
+.resume-preview > main {
+  transform: scale(var(--resume-preview-scale, 1));
+  transform-origin: top left;
 }
 
 main.ats-optimized {
@@ -225,6 +246,20 @@ main.ats-optimized {
 }
 
 @media print {
+  .resume-shell {
+    width: auto;
+  }
+
+  .resume-preview {
+    width: auto;
+    min-height: 0;
+    margin-bottom: 0;
+  }
+
+  .resume-preview > main {
+    transform: none;
+  }
+
   main.ats-optimized {
     width: auto;
     height: auto;

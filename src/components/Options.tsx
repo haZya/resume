@@ -38,7 +38,7 @@ function Options({
           <Toggle id="display-photo" label="Photo" value={displayPhoto} toggle={() => setDisplayPhoto(!displayPhoto)} />
           <div className="flex flex-col justify-center gap-2">
             <span className="font-mono text-sm">Theme</span>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {gradientOptions.map(option => (
                 <button
                   key={option.value}

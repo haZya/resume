@@ -5,6 +5,7 @@
 - This repository is a single-page resume site built with React 19, TypeScript, Vite 8, and Tailwind CSS 4.
 - Use this file as the operating guide for coding agents working in this repo.
 - Prefer small, focused edits that preserve the current print-style resume presentation.
+- Preserve both resume modes: the designed visual resume and the ATS-optimized one-page format.
 - Keep changes aligned with the existing stack instead of introducing new tools casually.
 
 ## Agent Rules Audit
@@ -17,11 +18,11 @@
 ## Project Layout
 
 - `src/main.tsx` mounts the app and loads fonts and global CSS.
-- `src/App.tsx` contains the main resume page markup and top-level UI state.
+- `src/App.tsx` contains the main resume page markup, top-level UI state, and ATS-specific section ordering.
 - `src/components/` contains small presentational components, including `Options.tsx` for the print-hidden controls.
 - `src/lib/resumeOptions.ts` contains the gradient option values and helpers used by the options UI.
 - `src/index.css` is the Tailwind entrypoint and global token file.
-- `src/App.css` contains the page-level gradient variables and shared accent styles tied to the active gradient.
+- `src/App.css` contains the page-level gradient variables, ATS layout rules, and print-specific A4 styling.
 - `src/env.d.ts` defines typed Vite env variables.
 - `vite.config.ts` wires up Tailwind, React, and the React Compiler preset.
 
@@ -129,6 +130,17 @@
 - Keep the resume's print-like dimensions and layout intact unless asked to change them.
 - Be careful with spacing and overflow changes that affect PDF-like sizing.
 - Reuse `--resume-gradient-active` for gradient-driven accents so controls and page details stay visually consistent.
+
+## Resume Modes and Print Behavior
+
+- The visual resume uses gradients, optional photo display, and theme controls.
+- The ATS format is toggled from `Options.tsx` and should remain one-column, text-first, and print-friendly.
+- In ATS mode, contact details appear before `SUMMARY`, and `TOP SKILLS` appears after `PROJECTS`.
+- In ATS mode, `Photo` and `Theme` controls are hidden because they do not affect the ATS layout.
+- The `Print / Download` button calls `window.print()`; browsers still control the print dialog and PDF destination.
+- Do not introduce client-side PDF rasterization libraries for ATS output unless explicitly requested; they can reduce selectable text and parsing quality.
+- If direct PDF download is needed later, prefer server-side generation with Playwright/Puppeteer over browser-only PDF libraries.
+- For print-impacting changes, check both screen preview and browser print preview when feasible.
 
 ## Tailwind Rules
 
