@@ -27,7 +27,9 @@
 body {
   background-color: #fff;
   display: flex;
-  justify-content: center;
+  justify-self: center;
+  height: 297mm;
+  width: 210mm;
 }
 
 @page {
@@ -39,6 +41,7 @@ body {
   body {
     margin: 0;
     padding: 0;
+    display: block;
   }
   * {
     -webkit-print-color-adjust: exact;

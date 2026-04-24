@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-import { Email, External, Globe, Linkedin, LogoGithub, Pen, Phone } from "geist-icons";
+import { Email, External, Globe, Linkedin, Location, LogoGithub, Pen, Phone } from "geist-icons";
 import { useState } from "react";
 
 import "./App.css";
@@ -16,6 +16,7 @@ const phone = import.meta.env.VITE_PHONE ?? "";
 const email = import.meta.env.VITE_EMAIL ?? "";
 
 function App() {
+  const [atsOptimized, setAtsOptimized] = useState(false);
   const [displayPhoto, setDisplayPhoto] = useState(true);
   const [selectedGradient, setSelectedGradient] = useState(DEFAULT_GRADIENT);
 
@@ -23,15 +24,72 @@ function App() {
     "--resume-gradient-active": `var(${getGradientCssVar(selectedGradient)})`,
   };
 
+  const contactLinks = (
+    <div id="connect" className="w-full space-y-2 px-4 font-mono text-[10pt]">
+      <Link atsOptimized={atsOptimized} icon={Location} content="Colombo, Sri Lanka" />
+      <Link atsOptimized={atsOptimized} icon={Phone} href={`tel:${phone}`} content={phone} />
+      <Link atsOptimized={atsOptimized} icon={Email} href={`mailto:${email}`} content={atsOptimized ? email : email.split("@").join(" @")} />
+      <Link atsOptimized={atsOptimized} icon={Linkedin} href="https://linkedin.com/in/hasitha-wickramasinghe-92483a19b" content="in/hasitha-wickramasinghe-92483a19b" />
+      <Link atsOptimized={atsOptimized} icon={LogoGithub} href="https://github.com/haZya" content="github.com/haZya" />
+      <Link atsOptimized={atsOptimized} icon={Globe} href="https://haZya.dev" content="https://haZya.dev" />
+      <Link atsOptimized={atsOptimized} icon={Pen} href="https://blog.hazya.dev" content="https://blog.haZya.dev" />
+    </div>
+  );
+
+  const skillsSection = (
+    <section id="skills" className={cn("w-full px-4", atsOptimized ? "space-y-4" : "space-y-2")}>
+      {atsOptimized
+        ? <Title atsOptimized={atsOptimized} content="TOP SKILLS" />
+        : <h2 className="text-[13px] font-medium tracking-wider">TOP SKILLS</h2>}
+      <div id="skill-list" className="flex flex-wrap gap-x-1 gap-y-1.25 font-mono text-xs tracking-tight">
+        <Skill>AWS</Skill>
+        <Skill>React</Skill>
+        <Skill>Next</Skill>
+        <Skill>AWS CDK</Skill>
+        <Skill>Terraform</Skill>
+        <Skill>IaC</Skill>
+        <Skill>Express</Skill>
+        <Skill>Node.js</Skill>
+        <Skill>Strapi CMS</Skill>
+        <Skill>SEO</Skill>
+        <Skill>CI/CD</Skill>
+        <Skill>DevOps</Skill>
+        <Skill>GitHub Actions</Skill>
+        <Skill>RBAC</Skill>
+        <Skill>GenAI</Skill>
+        <Skill>RAG</Skill>
+        <Skill>Bedrock AgentCore</Skill>
+        <Skill>Platform Engineering</Skill>
+        <Skill>Cloud-Native</Skill>
+        <Skill>Microservices</Skill>
+        <Skill>Serverless</Skill>
+        <Skill>Docker</Skill>
+        <Skill>API Gateway</Skill>
+        <Skill>GraphQL Federation</Skill>
+        <Skill>Distributed Systems</Skill>
+        <Skill>Feature Flags</Skill>
+        <Skill>Event-Driven</Skill>
+        <Skill>Canary</Skill>
+        <Skill>TBD</Skill>
+        <Skill>GitFlow</Skill>
+        <Skill>Blue/Green</Skill>
+        <Skill>A/B Testing</Skill>
+        <Skill>Monorepo</Skill>
+      </div>
+    </section>
+  );
+
   return (
     <>
       <Options
+        atsOptimized={atsOptimized}
         displayPhoto={displayPhoto}
         selectedGradient={selectedGradient}
+        setAtsOptimized={setAtsOptimized}
         setDisplayPhoto={setDisplayPhoto}
         setSelectedGradient={setSelectedGradient}
       />
-      <main style={mainStyle} className="grid h-[297mm] w-[210mm] grid-cols-5 gap-2.5 p-2.5">
+      <main style={mainStyle} className={cn("grid grid-cols-5 gap-2.5 p-2.5", atsOptimized && "ats-optimized")}>
         <section id="header" className="col-span-2 rounded-lg bg-white/30 py-8 text-white">
           <header className={cn("flex flex-col items-center gap-y-5", !displayPhoto && "gap-y-6")}>
             <div id="title" className="w-full px-4">
@@ -39,16 +97,19 @@ function App() {
               <h1 className="text-4xl font-semibold tracking-[-0.035em]">Wickramasinghe</h1>
               <p className="text-xl">Application Architect</p>
             </div>
+            {atsOptimized && contactLinks}
             <div id="about" className={cn("mt-18 w-full rounded-lg border-y-2 bg-white/20", !displayPhoto && "mt-0")}>
               <img
-                className={cn("mx-auto -mt-18 w-36 rounded-full border-3", !displayPhoto && "hidden")}
+                className={cn("mx-auto -mt-18 w-38 rounded-full border-3", !displayPhoto && "hidden")}
                 src={photo}
                 alt="photo"
                 width={144}
                 height={144}
               />
-              <div className="space-y-2 p-4">
-                <h2 className="text-sm font-semibold tracking-wider">ABOUT ME</h2>
+              <div className={cn("p-4", atsOptimized ? "space-y-4" : "space-y-2")}>
+                {atsOptimized
+                  ? <Title atsOptimized={atsOptimized} content="SUMMARY" />
+                  : <h2 className="text-sm font-semibold tracking-wider">ABOUT ME</h2>}
                 <p className={cn("text-[10pt]/tight", !displayPhoto && "text-sm tracking-[-0.0175em]")}>
                   Application Architect and Sr. Full-Stack Engineer with 7+ years of experience
                   shipping scalable and resilient web applications using a modern tech stack that includes
@@ -57,52 +118,8 @@ function App() {
                 </p>
               </div>
             </div>
-            <div id="connect" className="w-full space-y-2 px-4 font-mono text-[10pt]">
-              <Link icon={Phone} href={`tel:${phone}`} content={phone} />
-              <Link icon={Email} href={`mailto:${email}`} content={email.split("@").join(" @")} />
-              <Link icon={Linkedin} href="https://linkedin.com/in/hasitha-wickramasinghe-92483a19b" content="in/hasitha-wickramasinghe-92483a19b" />
-              <Link icon={LogoGithub} href="https://github.com/haZya" content="github.com/haZya" />
-              <Link icon={Globe} href="https://haZya.dev" content="https://haZya.dev" />
-              <Link icon={Pen} href="https://blog.hazya.dev" content="https://blog.haZya.dev" />
-            </div>
-            <div id="skills" className="w-full space-y-2 px-4">
-              <h2 className="text-[13px] font-medium tracking-wider">TOP SKILLS</h2>
-              <div className="flex flex-wrap gap-x-1 gap-y-1.25 font-mono text-xs tracking-tight">
-                <Skill>AWS</Skill>
-                <Skill>React</Skill>
-                <Skill>Next</Skill>
-                <Skill>AWS CDK</Skill>
-                <Skill>Terraform</Skill>
-                <Skill>IaC</Skill>
-                <Skill>Express</Skill>
-                <Skill>Node.js</Skill>
-                <Skill>Strapi CMS</Skill>
-                <Skill>SEO</Skill>
-                <Skill>CI/CD</Skill>
-                <Skill>DevOps</Skill>
-                <Skill>GitHub Actions</Skill>
-                <Skill>RBAC</Skill>
-                <Skill>GenAI</Skill>
-                <Skill>RAG</Skill>
-                <Skill>Bedrock AgentCore</Skill>
-                <Skill>Platform Engineering</Skill>
-                <Skill>Cloud-Native</Skill>
-                <Skill>Microservices</Skill>
-                <Skill>Serverless</Skill>
-                <Skill>Docker</Skill>
-                <Skill>API Gateway</Skill>
-                <Skill>GraphQL Federation</Skill>
-                <Skill>Distributed Systems</Skill>
-                <Skill>Feature Flags</Skill>
-                <Skill>Event-Driven Architecture</Skill>
-                <Skill>Canary</Skill>
-                <Skill>Trunk-Based Development</Skill>
-                <Skill>GitFlow</Skill>
-                <Skill>Blue/Green</Skill>
-                <Skill>A/B Testing</Skill>
-                <Skill>Monorepo</Skill>
-              </div>
-            </div>
+            {!atsOptimized && contactLinks}
+            {!atsOptimized && skillsSection}
             <div id="hobbies" className={cn("w-full space-y-2 px-4", displayPhoto && "hidden")}>
               <h2 className="text-[13px] font-medium tracking-wider">HOBBIES</h2>
               <div className="flex flex-wrap gap-x-1 gap-y-1.25 font-mono text-xs tracking-tight">
@@ -118,7 +135,7 @@ function App() {
         </section>
         <section id="body" className="col-span-3 space-y-5 rounded-lg bg-white px-6 py-8">
           <section id="education" className="space-y-4">
-            <Title content="EDUCATION & CERTS" />
+            <Title atsOptimized={atsOptimized} content="EDUCATION & CERTS" />
             <div className="space-y-2.75">
               <a
                 className="block"
@@ -153,7 +170,7 @@ function App() {
             </div>
           </section>
           <section id="experience" className="space-y-4">
-            <Title content="EXPERIENCE" />
+            <Title atsOptimized={atsOptimized} content="EXPERIENCE" />
             <div className="space-y-3">
               <div>
                 <h3 className="flex items-center justify-between text-[11pt] font-semibold">
@@ -343,7 +360,7 @@ function App() {
             </div>
           </section>
           <section id="projects" className="space-y-4">
-            <Title content="PROJECTS" />
+            <Title atsOptimized={atsOptimized} content="PROJECTS" />
             <div>
               <h3 className="flex items-center justify-between text-[11pt] font-semibold">
                 <a className="flex items-center gap-2" href="https://github.com/infinitered/nsfwjs" target="_blank" rel="noopener">
@@ -370,6 +387,7 @@ function App() {
               </div>
             </div>
           </section>
+          {atsOptimized && skillsSection}
         </section>
       </main>
     </>

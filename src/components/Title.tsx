@@ -1,4 +1,14 @@
-function Title({ content }: { content: string }) {
+function Title({ atsOptimized = false, content }: { atsOptimized?: boolean; content: string }) {
+  if (atsOptimized) {
+    return (
+      <div>
+        <h2 className="border-b border-slate-400 pb-1 text-sm font-bold tracking-wider text-slate-950">
+          {content}
+        </h2>
+      </div>
+    );
+  }
+
   return (
     <div className="flex w-full place-items-center">
       <h2

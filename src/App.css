@@ -12,3 +12,366 @@ main {
   background: #201e2e;
   background: var(--resume-gradient-active);
 }
+
+main.ats-optimized {
+  box-sizing: border-box;
+  display: block;
+  height: auto;
+  min-height: 297mm;
+  padding: 10mm 12mm;
+  background: #fff;
+  color: #0f172a;
+}
+
+.ats-optimized #header {
+  margin-bottom: 1rem;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #0f172a;
+}
+
+.ats-optimized #header > header {
+  align-items: stretch;
+  row-gap: 0.75rem;
+}
+
+.ats-optimized #title {
+  padding: 0 0 0.75rem;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.ats-optimized #title h1 {
+  display: inline;
+  font-size: 22pt;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: normal;
+}
+
+.ats-optimized #title h1:first-of-type::after {
+  content: " ";
+}
+
+.ats-optimized #title p {
+  margin-top: 0.25rem;
+  color: #334155;
+  font-size: 11pt;
+  font-weight: 600;
+}
+
+.ats-optimized #about {
+  margin-top: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.ats-optimized #about img {
+  display: none;
+}
+
+.ats-optimized #about > div {
+  padding: 0;
+}
+
+.ats-optimized #about p {
+  color: #1e293b;
+  font-size: 10.5pt;
+  line-height: 1.35;
+  letter-spacing: normal;
+}
+
+.ats-optimized #connect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-bottom: 0.25rem;
+  padding: 0 0 0.75rem;
+  border-bottom: 1px solid #cbd5e1;
+  color: #334155;
+  font-family: var(--font-sans);
+  font-size: 9.5pt;
+}
+
+.ats-optimized #connect a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ats-optimized #connect > :not(:last-child) {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.ats-optimized #skills {
+  padding: 0;
+}
+
+.ats-optimized #skill-list {
+  display: block;
+  color: #1e293b;
+  font-family: var(--font-sans);
+  font-size: 10pt;
+  line-height: 1.35;
+  letter-spacing: normal;
+}
+
+.ats-optimized #skills p {
+  display: inline;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.ats-optimized #skills p:not(:last-child)::after {
+  content: ", ";
+}
+
+.ats-optimized #hobbies {
+  display: none;
+}
+
+.ats-optimized #body {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #0f172a;
+}
+
+.ats-optimized #body > section {
+  margin-top: 1rem;
+}
+
+.ats-optimized #body a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ats-optimized h3 {
+  color: #0f172a;
+  font-size: 11pt;
+  line-height: 1.25;
+}
+
+.ats-optimized h3.flex {
+  display: block;
+}
+
+.ats-optimized h3 > span {
+  display: block;
+  margin-top: 0.05rem;
+  color: #475569;
+  font-family: var(--font-sans);
+  font-size: 9.5pt;
+}
+
+.ats-optimized #experience h3 + div {
+  margin-top: 0.35rem;
+}
+
+.ats-optimized #education p,
+.ats-optimized #experience p.flex,
+.ats-optimized #projects h3 > span {
+  color: #475569;
+  font-family: var(--font-sans);
+  font-size: 9.5pt;
+  letter-spacing: normal;
+}
+
+.ats-optimized #experience p.flex {
+  display: block;
+}
+
+.ats-optimized #experience p.flex > span {
+  display: block;
+  color: #0f172a;
+  font-family: var(--font-sans);
+  font-size: 10pt;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.ats-optimized #experience .relative {
+  padding-left: 0.75rem;
+}
+
+.ats-optimized #experience .relative::before {
+  display: none;
+}
+
+.ats-optimized #experience span[aria-hidden="true"],
+.ats-optimized #projects svg {
+  display: none;
+}
+
+.ats-optimized ul {
+  padding-left: 1rem;
+  list-style: disc;
+}
+
+.ats-optimized li {
+  margin-top: 0.2rem;
+}
+
+.ats-optimized li p {
+  padding-top: 0;
+  color: #1e293b;
+  font-size: 10pt;
+  line-height: 1.35;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+@media print {
+  main.ats-optimized {
+    width: auto;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 7mm 9mm;
+    font-size: 8.5pt;
+    overflow: visible;
+    break-after: avoid;
+  }
+
+  main.ats-optimized
+    :is(#header, #title, #about, #connect, #skills, #body, #education, #experience, #projects)
+    :where(*) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .ats-optimized #header {
+    margin-bottom: 4.5mm;
+  }
+
+  .ats-optimized #header > header {
+    row-gap: 2.8mm;
+  }
+
+  .ats-optimized #title {
+    padding-bottom: 2.4mm;
+  }
+
+  .ats-optimized #title h1 {
+    font-size: 18pt;
+    line-height: 0.95;
+  }
+
+  .ats-optimized #title p {
+    margin-top: 1mm;
+    font-size: 9.2pt;
+    line-height: 1.1;
+  }
+
+  .ats-optimized #about h2,
+  .ats-optimized #skills h2 {
+    font-size: 8.8pt;
+    line-height: 1.1;
+  }
+
+  main.ats-optimized #about p {
+    margin-top: 2mm;
+    font-size: 8.7pt;
+    line-height: 1.18;
+  }
+
+  main.ats-optimized #connect {
+    gap: 0 3.5mm;
+    margin-bottom: 2mm;
+    padding-bottom: 2.4mm;
+    font-size: 7.8pt;
+    line-height: 1.15;
+  }
+
+  main.ats-optimized #skill-list {
+    margin-top: 2mm;
+    font-size: 7.9pt;
+    line-height: 1.16;
+  }
+
+  .ats-optimized #body > section {
+    margin-top: 5mm;
+  }
+
+  .ats-optimized #body > section:first-child {
+    margin-top: 0;
+  }
+
+  .ats-optimized #education > div,
+  .ats-optimized #experience > div,
+  .ats-optimized #projects > div {
+    margin-top: 2mm;
+  }
+
+  .ats-optimized #education > div > * + *,
+  .ats-optimized #experience > div > * + * {
+    margin-top: 2.6mm;
+  }
+
+  .ats-optimized #experience h3 + div,
+  .ats-optimized #projects h3 + div {
+    margin-top: 1.2mm;
+  }
+
+  .ats-optimized #experience h3 + div > * + * {
+    margin-top: 1.4mm;
+  }
+
+  .ats-optimized h2 {
+    padding-bottom: 1mm;
+    font-size: 8.8pt;
+    line-height: 1.1;
+  }
+
+  .ats-optimized h3 {
+    font-size: 9.2pt;
+    line-height: 1.12;
+  }
+
+  .ats-optimized h3 > span,
+  .ats-optimized #education p,
+  .ats-optimized #experience p.flex,
+  .ats-optimized #projects h3 > span {
+    font-size: 7.8pt;
+    line-height: 1.2;
+  }
+
+  .ats-optimized #experience p.flex > span {
+    font-size: 8.8pt;
+    line-height: 1.15;
+  }
+
+  .ats-optimized #experience .relative {
+    padding-left: 3mm;
+  }
+
+  .ats-optimized ul {
+    margin-top: 0.9mm;
+    padding-left: 3.5mm;
+  }
+
+  .ats-optimized li {
+    margin-top: 0.8mm;
+  }
+
+  .ats-optimized li p {
+    font-size: 8.2pt;
+    line-height: 1.18;
+  }
+
+  .ats-optimized #education,
+  .ats-optimized #experience > div > div,
+  .ats-optimized #experience .relative,
+  .ats-optimized #projects > div,
+  .ats-optimized li {
+    break-inside: avoid;
+  }
+
+  .ats-optimized h2,
+  .ats-optimized h3 {
+    break-after: avoid;
+  }
+}
