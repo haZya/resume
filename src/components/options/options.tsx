@@ -1,8 +1,8 @@
-import type { GradientValue } from "../lib/resumeOptions";
+import type { GradientValue } from "../../lib/resume-options";
 
-import { cn } from "../lib/cn";
-import { gradientOptions } from "../lib/resumeOptions";
-import Toggle from "./Toggle";
+import { cn } from "../../lib/cn";
+import { gradientOptions } from "../../lib/resume-options";
+import Toggle from "../options/toggle";
 
 type OptionsProps = {
   atsOptimized: boolean;

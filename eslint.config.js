@@ -38,6 +38,7 @@ export default antfu(
           tsconfig: { rootDir: "." },
         },
       ],
+      "unicorn/filename-case": ["error", { case: "kebabCase" }],
       "better-tailwindcss/enforce-consistent-line-wrapping": "off",
       "better-tailwindcss/no-unknown-classes": "off",
     },

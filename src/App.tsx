@@ -5,12 +5,12 @@ import { useLayoutEffect, useRef, useState } from "react";
 
 import "./App.css";
 import photo from "./assets/photo.jfif";
-import Link from "./components/Link";
-import Options from "./components/Options";
-import Skill from "./components/Skill";
-import Title from "./components/Title";
+import Options from "./components/options/options";
+import Link from "./components/resume/link";
+import Skill from "./components/resume/skill";
+import Title from "./components/resume/title";
 import { cn } from "./lib/cn";
-import { DEFAULT_GRADIENT, getGradientCssVar } from "./lib/resumeOptions";
+import { DEFAULT_GRADIENT, getGradientCssVar } from "./lib/resume-options";
 
 const phone = import.meta.env.VITE_PHONE ?? "";
 const email = import.meta.env.VITE_EMAIL ?? "";

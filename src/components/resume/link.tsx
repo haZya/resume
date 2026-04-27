@@ -1,6 +1,6 @@
 import type { FC, SVGProps } from "react";
 
-import { cn } from "../lib/cn";
+import { cn } from "../../lib/cn";
 
 function Link({ atsOptimized = false, icon: Icon, href, content }: { atsOptimized?: boolean; icon: FC<SVGProps<SVGSVGElement>>; href?: string; content: string }) {
   return (
